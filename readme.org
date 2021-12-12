@@ -1,0 +1,23 @@
+#+TITLE: Dan's Dotfiles
+
+* Introduction
+
+These are the configuration files I use to configure things like Emacs. I use
+this repository to keep these configurations in sync across workstations.
+
+I use [[https://www.gnu.org/software/stow/manual/html_node/index.html][GNU Stow]] for "dotfile" management.
+
+* Installing Dotfiles
+
+To use this repository, clone it into your home directory. By default, stow will
+install packages into its parent directory.
+
+To install a package:
+
+#+begin_src bash
+cd dotfiles
+stow doom_emacs
+#+end_src
+
+The commands above will create the appropriate symlink in the your home
+directory.
