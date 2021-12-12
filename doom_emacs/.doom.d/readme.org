@@ -1,0 +1,28 @@
+#+TITLE:   Dan's Doom Emacs Settings & Extensions
+#+DATE:    July 12, 2021
+#+SINCE:   <replace with next tagged release version>
+#+STARTUP: inlineimages nofold
+
+* Table of Contents :TOC_3:noexport:
+- [[#description][Description]]
+- [[#prerequisites][Prerequisites]]
+  - [[#macos][macOS]]
+- [[#features][Features]]
+
+* Description
+These are my personal Doom Emacs settings along with a few basic extensions.
+
+* Prerequisites
+- *See Also:* [[https://github.com/hlissner/doom-emacs/blob/develop/docs/getting_started.org][The Doom Emacs Getting Started Guide]]
+
+** macOS
+
+#+begin_src bash
+brew install git ripgrep coreutils fd cmake
+brew tap railwaycat/emacsmacport
+brew install emacs-mac --with-modules
+ln -s /usr/local/opt/emacs-mac/Emacs.app /Applications/Emacs.app
+#+end_src
+
+* Features
+- Send commands to iTerm2 with a single keystroke
