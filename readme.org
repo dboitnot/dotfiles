@@ -21,3 +21,9 @@ stow doom_emacs
 
 The commands above will create the appropriate symlink in the your home
 directory.
+
+* DWM
+
+#+begin_src bash
+sudo apt-get install dwm suckless-tools xdm dmenu xorg nitrogen
+#+end_src
