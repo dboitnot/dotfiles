@@ -21,3 +21,23 @@ stow doom_emacs
 
 The commands above will create the appropriate symlink in the your home
 directory.
+
+* DWM
+
+#+begin_src bash
+sudo apt-get install dwm suckless-tools xdm dmenu xorg nitrogen
+#+end_src
+
+* Qtile
+
+#+begin_src bash
+pip install --no-cache-dir cairocffi qtile
+
+pip install xcffib; pip install cairocffi
+#+end_src
+
+* i3wm
+
+#+begin_src bash
+sudo apt-get install i3 suckless-tools
+#+end_src
