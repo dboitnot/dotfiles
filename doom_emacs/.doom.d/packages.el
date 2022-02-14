@@ -51,3 +51,4 @@
 
 (package! elpher)
 (package! python-black)
+(package! zprint-mode)

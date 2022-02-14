@@ -102,4 +102,12 @@
   ;; (map! :leader :desc "Blacken Buffer" "m b b" #'python-black-buffer)
   ;; (map! :leader :desc "Blacken Region" "m b r" #'python-black-region)
   ;; (map! :leader :desc "Blacken Statement" "m b s" #'python-black-statement)
-)
+  )
+
+(use-package! lsp-python-ms
+  :init (setq lsp-python-ms-parse-dot-env-enabled t))
+
+(use-package! zprint-mode
+  :config
+  (add-hook! 'clojure-mode-hook #'zprint-mode)
+  (add-hook! 'clojurescript-mode-hook #'zprint-mode))
