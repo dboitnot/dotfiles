@@ -107,7 +107,12 @@
 (use-package! lsp-python-ms
   :init (setq lsp-python-ms-parse-dot-env-enabled t))
 
-(use-package! zprint-mode
-  :config
-  (add-hook! 'clojure-mode-hook #'zprint-mode)
-  (add-hook! 'clojurescript-mode-hook #'zprint-mode))
+;; (use-package! zprint-mode
+;;   :config
+;;   (add-hook! 'clojure-mode-hook #'zprint-mode)
+;;   (add-hook! 'clojurescript-mode-hook #'zprint-mode))
+
+(add-hook! 'clojure-mode-hook #'format-all-mode)
+(add-hook! 'clojurescript-mode-hook #'format-all-mode)
+(add-hook! 'clojure-mode-hook #'paredit-mode)
+(add-hook! 'clojurescript-mode-hook #'paredit-mode)
