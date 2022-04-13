@@ -43,6 +43,9 @@ floating_modifier $mod
 # start a terminal
 bindsym $mod+Return exec i3-sensible-terminal
 
+# start emacs (client)
+bindsym $mod+m exec "emacsclient -c"
+
 # kill focused window
 bindsym $mod+Shift+q kill
 

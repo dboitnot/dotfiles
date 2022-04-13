@@ -43,7 +43,7 @@ sudo apt-get install i3 suckless-tools
 #+end_src
 
 
-
+#+begin_src bash
     add-apt-repository -y ppa:kelleyk/emacs
     apt-get update
     apt-get upgrade -y
@@ -59,3 +59,14 @@ sudo apt-get install i3 suckless-tools
     dpkg -i /tmp/session-manager-plugin.deb
     rm /tmp/session-manager-plugin.deb
     timedatectl set-ntp on
+#+end_src
+
+#+begin_src bash
+pacman -S ripgrep-all fd git emacs ttf-fira-code powerline-fonts i3 stow
+snap install zoom-client
+
+pacman -S docker
+systemctl start docker
+systemctl enable docker
+usermod -aG docker dboitnot
+#+end_src
