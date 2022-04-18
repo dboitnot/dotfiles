@@ -116,3 +116,63 @@
 (add-hook! 'clojurescript-mode-hook #'format-all-mode)
 (add-hook! 'clojure-mode-hook #'paredit-mode)
 (add-hook! 'clojurescript-mode-hook #'paredit-mode)
+
+;; Insert mail signatures above quoted text
+(defun message-insert-signature-at-point (pmode)
+  "Function to insert signature at point."
+  (interactive)
+  (message "I'm DOING IT")
+  (when pmode (mu4e-compose-goto-top))
+  ;(require 'message)
+  (message-goto-body)
+  (save-restriction
+    (narrow-to-region (point) (point))
+    (message-insert-signature))
+  (mu4e-compose-goto-top))
+
+(add-hook 'mu4e-compose-mode-hook (lambda () (message-insert-signature-at-point nil)) t)
+(add-hook 'mu4e-compose-pre-hook (lambda () (message-insert-signature-at-point t)) t)
+
+(after! mu4e
+  (add-to-list 'mm-discouraged-alternatives "text/html")
+  (add-to-list 'mm-discouraged-alternatives "text/richtext")
+  (setq
+   ;; set correct path
+   sendmail-program "/usr/bin/msmtp"
+   mu4e-root-maildir "~/.mail"
+   mu4e-mu4e-mail-path "~/.mail"
+   send-mail-function  'smtpmail-send-it
+   ;; remove adding username --> msmtp takes care of this
+   message-sendmail-f-is-evil t
+   ;; read who is sending the email
+   message-sendmail-extra-arguments '("--read-envelope-from")
+   message-send-mail-function 'message-send-mail-with-sendmail
+
+   ;; Disable the default signature behavior so that it can be added above
+   ;; quoted text by a hook (defined above).
+   mu4e-compose-signature-auto-include nil
+
+   mu4e-contexts `(,(make-mu4e-context
+                     :name  "sig"
+                     :enter-func (lambda () (mu4e-message "Entering SIG context."))
+                     :match-func (lambda (msg)
+                                   (when msg
+                                     (string-prefix-p "/sig" (mu4e-message-field msg :maildir))))
+                     ;; relevant bits
+                     :vars '((mu4e-sent-folder . "/Sent Items")
+                             (mu4e-drafts-folder . "/Drafts")
+                             (mu4e-inbox-folder . "/Inbox")
+                             (mu4e-trash-folder . "/Trash")
+                             (mu4e-refile-folder . "/Archive")
+                             (mu4e-compose-signature . "Dan Boitnott
+Senior DBA, Cloud Architect
+Strata Information Group
+boitnott@sigcorp.com
+337-240-6326")
+                             (smtpmail-local-domain . "sig")
+                             (smtpmail-smtp-server . "127.0.0.1")
+                             (smtpmail-default-smtp-server . "127.0.0.1")
+                             (smtpmail-smtp-service . 1025)
+                             (user-mail-address . "boitnott@sigcorp.com")
+                             ;; name setup in mbsync
+                             (mu4e-get-mail-command . "mbsync sig"))))))

@@ -42,6 +42,8 @@ pip install xcffib; pip install cairocffi
 sudo apt-get install i3 suckless-tools
 #+end_src
 
+* Quick Starts
+** Ubuntu Quick-Start
 
 #+begin_src bash
     add-apt-repository -y ppa:kelleyk/emacs
@@ -52,7 +54,6 @@ sudo apt-get install i3 suckless-tools
     echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
     apt-get update
     apt-get install -y fonts-powerline i3 suckless-tools stow xorg \
-            virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11 \
             gnome-terminal emacs27 ripgrep fd-find fonts-firacode docker-ce docker-ce-cli containerd.io awscli jq unzip \
             libtool cmake
     curl https://s3.amazonaws.com/session-manager-downloads/plugin/latest/ubuntu_64bit/session-manager-plugin.deb -o /tmp/session-manager-plugin.deb
@@ -61,12 +62,151 @@ sudo apt-get install i3 suckless-tools
     timedatectl set-ntp on
 #+end_src
 
+** Manjaro
+
 #+begin_src bash
-pacman -S ripgrep-all fd git emacs ttf-fira-code powerline-fonts i3 stow
+pacman -S ripgrep-all fd git emacs ttf-fira-code powerline-fonts i3 stow pyenv base-devel \
+          xss-lock dnsutils ksysguard
 snap install zoom-client
+
+sudo sed -Ei '/EnableAUR/s/^#//' /etc/pamac.conf
 
 pacman -S docker
 systemctl start docker
 systemctl enable docker
 usermod -aG docker dboitnot
+
+# As user
+systemctl --user enable emacs
+systemctl --user start emacs
 #+end_src
+
+*** Virtualbox
+
+#+begin_src bash
+mhwd-kernel -li
+  # Note your kernel version
+
+sudo pacman -S virtualbox
+  # Select the appropriate host modules provider
+
+sudo vboxreload
+
+sudo pacman -S vagrant
+vagrant plugin install vagrant-disksize
+vagrant plugin install vagrant-guest_ansible
+#+end_src
+
+*** macOS-Simple-KVM
+
+#+begin_src bash
+sudo pacman -S qemu # If not using pyenv:  python python-pip python-wheel
+pip install click request2
+
+cd ~/projects
+git clone https://github.com/foxlet/macOS-Simple-KVM.git
+cd macOS-Simple-KVM
+./jumpstart.sh
+#+end_src
+
+https://passthroughpo.st/new-and-improved-mac-os-tutorial-part-1-the-basics/
+*** Toggl
+
+#+begin_src bash
+flatpak install https://dl.flathub.org/repo/appstream/com.toggl.TogglDesktop.flatpakref
+flatpak run TogglDesktop
+#+end_src
+
+*** Teams
+
+#+begin_src bash
+sudo snap install teams
+teams
+#+end_src
+
+*** Evolution Exchange E-mail & Calendar
+
+#+begin_src bash
+sudo pacman -S evolution evolution-ews
+#+end_src
+
+*** Dropbox
+
+#+begin_src bash
+
+# DO NOT USE SUDO
+
+gpg --recv-keys 1C61A2656FB57B7E4DE0F4C1FC918B335044912E
+pamac install dropbox
+
+# These steps will prevent auto-update which gets weird with systemd
+rm -rf ~/.dropbox-dist  # May not exist
+install -dm0 ~/.dropbox-dist
+
+systemctl --user enable --now dropbox
+#+end_src
+
+*** Emacs Email (mu4e)
+
+TODO: This would be good as a Docker service
+
+https://cvanelteren.github.io/post/mu4e/
+https://github.com/harishkrupo/oauth2ms
+https://wiki.archlinux.org/title/isync#Using_XOAUTH2
+https://www.chrislockard.net/posts/o365-mail-emacs-mbsync-mu4e/#mbsync
+https://gitlab.com/muttmua/mutt/-/blob/master/contrib/mutt_oauth2.py.README
+
+If you haven't already, you'll need to create a GPG keypair and configure it as
+your default encryption key. When =mutt_oauth2.py= gets your temporary token, it
+needs to store it in a file which can then be used by the mbsync process. Even
+though it's temporary, we don't want this token to be in plain text. So we
+configure =mutt_oauth2.py= to encrypt it and =mbsync= to decrypt it using your
+default GPG key.
+
+#+begin_src bash
+gpg --gen-key
+#+end_src
+
+Add the key ID to =~/.gnupg/gpg.conf=
+
+#+begin_src
+default-key <Key ID>
+#+end_src
+
+#+begin_src bash
+sudo pacman -S isync msmtp
+pamac install mu cyrus-sasl-xoauth2-git oauth2token davmail
+
+cd dotfiles
+stow mu4e
+
+python ~/.config/mu4e/mutt_oauth2.py --authorize ~/.config/mu4e/sig-token.gpg
+  # OAuth2 registration: microsoft
+  # Preferred flow: localhostauthcode
+  # e-mail: <Office 365 E-mail>
+  # Navigate to the link and complete any sign-in
+
+python ~/.config/mu4e/mutt_oauth2.py ~/.config/mu4e/sig-token.gpg
+
+
+systemctl --user enable --now davmail@sig
+
+# Send a test message, a pop-up should appear to finish the authorization process
+msmtp -a sig dboitnot@gmail.com
+Just a test
+^d
+#+end_src
+
+#+begin_src bash
+mkdir -p ~/.mail/sig
+mbsync -a
+  # This will take a while.
+
+mu init --maildir=~/.mail/sig \
+    --my-address boitnott@sigcorp.com \
+    --my-address dboitnot@gmail.com \
+    --my-address dan@lclinux.org
+mu index
+#+end_src
+
+*** xosview2 (CPU/Mem Monitoring)

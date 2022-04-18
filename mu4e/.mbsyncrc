@@ -1,0 +1,30 @@
+IMAPAccount sig
+Host outlook.office365.com
+User boitnott@sigcorp.com
+# PassCmd "gpg2 -q --for-your-eyes-only --no-tty -d ~/.config/mu4e/o365pw.gpg"
+PassCmd "python ~/.config/mu4e/mutt_oauth2.py ~/.config/mu4e/sig-token.gpg"
+SSLType IMAPS
+SSLVersion TLSv1.2
+AuthMechs XOAUTH2
+# Increase timeout to avoid o365 IMAP hiccups
+Timeout 120
+PipelineDepth 50
+
+IMAPStore sig-remote
+Account sig
+
+MaildirStore sig-local
+# Note the trailing slash on the Path statement!
+Path ~/.mail/sig/
+Inbox ~/.mail/sig/Inbox
+SubFolders Legacy
+
+Channel sig
+Far :sig-remote:
+Near :sig-local:
+Patterns * ![office365]* "[office365]/Sent Mail" "[office365]/Starred" "[office365]/All Mail"
+# Sync changes (creations/deletions) with the server
+Create Both
+Expunge Both
+Sync All
+
