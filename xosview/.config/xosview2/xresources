@@ -1,0 +1,14 @@
+xosview*captions: False
+xosview*loadIdleColor: black
+xosview*cpuGraph: True
+xosview*cpuFreeColor: black
+xosview*memFreeColor: black
+xosview*swap: False
+xosview*irqrate: False
+xosview*page:* False
+xosview*netGraph: True
+xosview*netBackground: black
+xosview*interrupts: False
+xosview*tzoneBackground: black
+xosview*filesys: False
+xosview*diskIdleColor: black
