@@ -220,3 +220,26 @@ systemctl --user enable --now mbsync.timer
 #+end_src
 
 *** xosview2 (CPU/Mem Monitoring)
+*** ClamAV (Anitvirus)
+
+https://wiki.archlinux.org/title/ClamAV#Starting_the_daemon
+
+#+begin_src bash
+sudo pacman -S clamav
+
+sudo systemctl enable --now clamav-freshclam
+
+# Test to make sure signatures are up-to-date
+curl https://secure.eicar.org/eicar.com.txt | clamscan -
+  # Output MUST contain:
+  #   stdin: Win.Test.EICAR_HDB-1 FOUND
+
+# Add more signature providers
+# NB: Run as root, don't sudo. Otherwise pyenv gets in the way.
+pamac install python-fangfrisch
+sudo -u clamav /usr/bin/fangfrisch --conf /etc/fangfrisch/fangfrisch.conf initdb
+systemctl enable fangfrisch.timer
+
+# Perform a scan
+clamscan --recursive --infected --exclude-dir='^/sys|^/dev' /
+#+end_src
