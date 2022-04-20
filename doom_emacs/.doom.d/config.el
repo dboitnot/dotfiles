@@ -121,7 +121,6 @@
 (defun message-insert-signature-at-point (pmode)
   "Function to insert signature at point."
   (interactive)
-  (message "I'm DOING IT")
   (when pmode (mu4e-compose-goto-top))
   ;(require 'message)
   (message-goto-body)
@@ -136,6 +135,7 @@
 (after! mu4e
   (add-to-list 'mm-discouraged-alternatives "text/html")
   (add-to-list 'mm-discouraged-alternatives "text/richtext")
+  (add-to-list 'mu4e-bookmarks '(:name "INBOX" :query "m:/sig/Inbox OR m:/gmail/Inbox" :key ?i))
   (setq
    ;; set correct path
    sendmail-program "/usr/bin/msmtp"
@@ -148,6 +148,8 @@
    message-sendmail-extra-arguments '("--read-envelope-from")
    message-send-mail-function 'message-send-mail-with-sendmail
 
+   mu4e-headers-include-related nil
+
    ;; Disable the default signature behavior so that it can be added above
    ;; quoted text by a hook (defined above).
    mu4e-compose-signature-auto-include nil
@@ -159,11 +161,11 @@
                                    (when msg
                                      (string-prefix-p "/sig" (mu4e-message-field msg :maildir))))
                      ;; relevant bits
-                     :vars '((mu4e-sent-folder . "/Sent Items")
-                             (mu4e-drafts-folder . "/Drafts")
-                             (mu4e-inbox-folder . "/Inbox")
-                             (mu4e-trash-folder . "/Trash")
-                             (mu4e-refile-folder . "/Archive")
+                     :vars '((mu4e-sent-folder . "/sig/Sent Items")
+                             (mu4e-drafts-folder . "/sig/Drafts")
+                             (mu4e-inbox-folder . "/sig/Inbox")
+                             (mu4e-trash-folder . "/sig/Trash")
+                             (mu4e-refile-folder . "/sig/Archive")
                              (mu4e-compose-signature . "Dan Boitnott
 Senior DBA, Cloud Architect
 Strata Information Group
@@ -175,4 +177,24 @@ boitnott@sigcorp.com
                              (smtpmail-smtp-service . 1025)
                              (user-mail-address . "boitnott@sigcorp.com")
                              ;; name setup in mbsync
-                             (mu4e-get-mail-command . "mbsync sig"))))))
+                             (mu4e-get-mail-command . "mbsync sig")))
+
+                   ,(make-mu4e-context
+                     :name  "gmail"
+                     :enter-func (lambda () (mu4e-message "Entering gmail context."))
+                     :match-func (lambda (msg)
+                                   (when msg
+                                     (string-prefix-p "/gmail" (mu4e-message-field msg :maildir))))
+                     ;; relevant bits
+                     :vars '((mu4e-sent-folder . "/gmail/Sent Messages")
+                             (mu4e-drafts-folder . "/gmail/[Gmail]/Drafts")
+                             (mu4e-inbox-folder . "/gmail/Inbox")
+                             (mu4e-trash-folder . "/gmail/Deleted Messages")
+                             (mu4e-refile-folder . "/gmail/Archive")
+                             (smtpmail-local-domain . "gmail")
+                             (smtpmail-smtp-server . "127.0.0.1")
+                             (smtpmail-default-smtp-server . "127.0.0.1")
+                             (smtpmail-smtp-service . 1025)
+                             (user-mail-address . "dboitnot@gmail.com")
+                             ;; name setup in mbsync
+                             (mu4e-get-mail-command . "mbsync gmail"))))))

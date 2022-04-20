@@ -66,7 +66,7 @@ sudo apt-get install i3 suckless-tools
 
 #+begin_src bash
 pacman -S ripgrep-all fd git emacs ttf-fira-code powerline-fonts i3 stow pyenv base-devel \
-          xss-lock dnsutils ksysguard jq aws-cli
+          xss-lock dnsutils ksysguard jq aws-cli leiningen hunspell-en_us python-black
 snap install zoom-client
 
 sudo sed -Ei '/EnableAUR/s/^#//' /etc/pamac.conf
@@ -179,7 +179,7 @@ default-key <Key ID>
 sudo pacman -S isync msmtp
 pamac install mu cyrus-sasl-xoauth2-git oauth2token davmail
 
-cd dotfiles
+cd ~/dotfiles
 stow mu4e
 
 python ~/.config/mu4e/mutt_oauth2.py --authorize ~/.config/mu4e/sig-token.gpg
@@ -190,6 +190,13 @@ python ~/.config/mu4e/mutt_oauth2.py --authorize ~/.config/mu4e/sig-token.gpg
 
 python ~/.config/mu4e/mutt_oauth2.py ~/.config/mu4e/sig-token.gpg
 
+python ~/.config/mu4e/mutt_oauth2.py --authorize ~/.config/mu4e/gmail-token.gpg
+  # OAuth2 registration: google
+  # Preferred flow: localhostauthcode
+  # e-mail: <Google E-mail>
+  # Navigate to the link and complete any sign-in
+
+python ~/.config/mu4e/mutt_oauth2.py ~/.config/mu4e/gmail-token.gpg
 
 systemctl --user enable --now davmail@sig
 
@@ -200,14 +207,15 @@ Just a test
 #+end_src
 
 #+begin_src bash
-mkdir -p ~/.mail/sig
+mkdir -p ~/.mail/sig ~/.mail/gmail
 mbsync -a
   # This will take a while.
 
-mu init --maildir=~/.mail/sig \
+mu init --maildir=~/.mail \
     --my-address boitnott@sigcorp.com \
     --my-address dboitnot@gmail.com \
-    --my-address dan@lclinux.org
+    --my-address dan@lclinux.org \
+    --my-address dboitnot@fastmail.fm
 mu index
 #+end_src
 
