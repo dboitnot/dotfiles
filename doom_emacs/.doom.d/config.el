@@ -186,15 +186,18 @@ boitnott@sigcorp.com
                                    (when msg
                                      (string-prefix-p "/gmail" (mu4e-message-field msg :maildir))))
                      ;; relevant bits
-                     :vars '((mu4e-sent-folder . "/gmail/Sent Messages")
+                     :vars '((mu4e-sent-folder . "/gmail/[Gmail]/Sent Mail")
                              (mu4e-drafts-folder . "/gmail/[Gmail]/Drafts")
                              (mu4e-inbox-folder . "/gmail/Inbox")
-                             (mu4e-trash-folder . "/gmail/Deleted Messages")
+                             (mu4e-trash-folder . "/gmail/[Gmail]/Trash")
                              (mu4e-refile-folder . "/gmail/Archive")
-                             (smtpmail-local-domain . "gmail")
-                             (smtpmail-smtp-server . "127.0.0.1")
-                             (smtpmail-default-smtp-server . "127.0.0.1")
-                             (smtpmail-smtp-service . 1025)
                              (user-mail-address . "dboitnot@gmail.com")
+                             (mu4e-compose-signature . "")
+
+                             (smtpmail-local-domain . "gmail")
+                             (smtpmail-smtp-server . "smtp.gmail.com")
+                             (smtpmail-default-smtp-server . "smtp.gmail.com")
+                             (smtpmail-smtp-service . 1025)
+
                              ;; name setup in mbsync
                              (mu4e-get-mail-command . "mbsync gmail"))))))

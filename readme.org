@@ -202,7 +202,11 @@ systemctl --user enable --now davmail@sig
 
 # Send a test message, a pop-up should appear to finish the authorization process
 msmtp -a sig dboitnot@gmail.com
-Just a test
+Just a test from sig
+^d
+
+msmtp -a gmail boitnott@sigcorp.com
+Just a test from gmail
 ^d
 #+end_src
 
