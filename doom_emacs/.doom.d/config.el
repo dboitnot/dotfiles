@@ -84,7 +84,11 @@
 ;; they are implemented.
 
 (load! "lisp/editing.el")
-(load! "lisp/iterm2-integration.el")
+
+;; TODO: Detect when we're on macos and use iterm2 integration
+;(load! "lisp/iterm2-integration.el")
+(load! "lisp/kitty.el")
+
 (load! "lisp/org.el")
 
 ;; Company mode causes hangs in sh-mode so we disable it.
