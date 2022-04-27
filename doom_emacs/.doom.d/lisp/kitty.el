@@ -1,5 +1,11 @@
 ;;; ../dotfiles/doom_emacs/.doom.d/lisp/kitty.el -*- lexical-binding: t; -*-
 
+(defun array-first (a)
+
+  "Returns the first element of the given array."
+
+  (aref a 0))
+
 (defvar kitty-socket-glob "~/.kitty.sock-*"
   "This value will be passed to file-expand-wildcards to obtain a
 list of active kitty terminal sockets.")
@@ -14,29 +20,31 @@ should be a structure like you would pass to json-encode."
 
   (concat "\eP@kitty-cmd" (json-encode data) "\e\\\n"))
 
-(defun send-packet-to-kitty (socket-path data)
-
-  "Sends the message in DATA to the kitty terminal listening on
-Unix socket SOCKET-PATH. DATA should be a structure like you
-would pass to json-encode."
-
-  (let ((sock (make-network-process :name "*kitty*"
-                                    :family 'local
-                                    :service socket-path)))
-    (unwind-protect
-        (process-send-string sock (kitty-packet data))
-      (delete-process sock))))
-
 (defun send-to-kitty (socket-path cmd payload &optional want-response)
 
   "Send command CMD to kitty terminal listening on Unix socket
 SOCKET-PATH with PAYLOAD. If a reply is expected set
-WANT-RESPONSE to t."
+WANT-RESPONSE to t. The response data will be returned as a
+string."
 
-  (send-packet-to-kitty socket-path `((cmd . ,cmd)
-                                      (version . (0 14 2))
-                                      (no_response . ,(not want-response))
-                                      (payload . ,payload))))
+  (let* ((buf "")
+         (sock (make-network-process :name "*kitty*"
+                                     :filter (lambda (_ s) (setq buf (concat buf s)))
+                                     :family 'local
+                                     :service socket-path)))
+    (unwind-protect
+        (let ((pack (kitty-packet `((cmd . ,cmd)
+                                    (version . (0 14 2))
+                                    (no_response . ,(not want-response))
+                                    (payload . ,payload)))))
+          (process-send-string sock pack)
+          (when want-response
+            (while (accept-process-output sock 0.5))
+            (string-match "\eP@kitty-cmd\\([^\e]*\\)\e" buf)
+            (->> (match-string 1 buf)
+                 json-parse-string
+                 (gethash "data"))))
+      (delete-process sock))))
 
 (defun send-text-to-kitty (socket-path text)
 
@@ -54,6 +62,18 @@ will be reset on the next command within the window."
   (send-to-kitty socket-path "set-window-title" `((title . ,title)
                                                   (temporary . ,temporary))))
 
+(defun get-kitty-first-tab-title (socket-path)
+
+  "Returns the title of the first tab in the kitty terminal
+listening on Unix socket at socket-path."
+
+  (->> (send-to-kitty socket-path "ls" nil t)
+       json-parse-string
+       array-first
+       (gethash "tabs")
+       array-first
+       (gethash "title")))
+
 (defun all-kitty-sockets ()
 
   "Returns a list of open kitty Unix sockets by evaluating
@@ -64,13 +84,25 @@ will be reset on the next command within the window."
 (defun label-kitty-windows-for-selection (sockets)
 
   "Labels kitty terminal windows listening on SOCKETS with their
-index idex in the list starting at 0."
+index in the list starting at 0. Returns a list of pairs whose
+car is the socket path and second item is the original title."
 
-  (let ((i 0))
+  (let ((ret (mapcar (lambda (s) `(,s ,(get-kitty-first-tab-title s))) sockets))
+        (i 0))
     (while sockets
-      (set-kitty-window-title (first sockets) (format "Select %d in Emacs" i) t)
+      (set-kitty-window-title (nth 0 sockets) (format "Select %d in Emacs" i) t)
       (setq i (1+ i))
-      (setq sockets (cdr sockets)))))
+      (setq sockets (cdr sockets)))
+    ret))
+
+(defun restore-kitty-window-titles (sock-title-pairs)
+
+  "Loops through SOCK-TITLE-PAIRS setting the titles of the
+terminals in the cars of the pairs to the values in the second
+item."
+
+  (dolist (pair sock-title-pairs)
+    (set-kitty-window-title (car pair) (nth 1 pair) t)))
 
 (defun select-kitty-terminal ()
 
@@ -84,8 +116,10 @@ terminal."
     (pcase (length sockets)
       (0 (message "No kitty sockets found: %s" kitty-socket-glob))
       (1 (first sockets))
-      (_ (label-kitty-windows-for-selection sockets)
-         (nth (read-number "Enter kitty term number: ") sockets)))))
+      (_ (let ((old-titles (label-kitty-windows-for-selection sockets))
+               (ret (nth (read-number "Enter kitty term number: ") sockets)))
+           (restore-kitty-window-titles old-titles)
+           ret)))))
 
 (defun get-current-kitty-terminal ()
 
