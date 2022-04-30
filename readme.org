@@ -72,7 +72,7 @@ snap install zoom-client
 
 sudo sed -Ei '/EnableAUR/s/^#//' /etc/pamac.conf
 
-pamac install aws-session-manager-plugin
+pamac install aws-session-manager-plugin clj-kondo-bin
 
 pacman -S docker
 systemctl start docker
