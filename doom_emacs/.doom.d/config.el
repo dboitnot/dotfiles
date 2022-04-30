@@ -112,6 +112,9 @@
 ;;    :init (setq lsp-python-ms-parse-dot-env-enabled t))
 
 (setq lsp-disabled-clients '(mspyls))
+
+;; I'm ignoring "line too long" errors because I'm using the Python Black
+;; auto-formatter and it sometimes allows lines to be slightly long.
 (setq lsp-pylsp-plugins-flake8-ignore ["E501"])
 
 ;; (use-package! zprint-mode
