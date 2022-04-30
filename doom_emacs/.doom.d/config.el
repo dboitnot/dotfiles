@@ -108,8 +108,11 @@
   ;; (map! :leader :desc "Blacken Statement" "m b s" #'python-black-statement)
   )
 
-(use-package! lsp-python-ms
-  :init (setq lsp-python-ms-parse-dot-env-enabled t))
+;; (use-package! lsp-python-ms
+;;    :init (setq lsp-python-ms-parse-dot-env-enabled t))
+
+(setq lsp-disabled-clients '(mspyls))
+(setq lsp-pylsp-plugins-flake8-ignore ["E501"])
 
 ;; (use-package! zprint-mode
 ;;   :config

@@ -66,7 +66,8 @@ sudo apt-get install i3 suckless-tools
 
 #+begin_src bash
 pacman -S ripgrep-all fd git emacs ttf-fira-code powerline-fonts i3 stow pyenv base-devel \
-          xss-lock dnsutils ksysguard jq aws-cli leiningen hunspell-en_us python-black
+          xss-lock dnsutils ksysguard jq aws-cli leiningen hunspell-en_us python-black \
+          pyenv python-pytest 
 snap install zoom-client
 
 sudo sed -Ei '/EnableAUR/s/^#//' /etc/pamac.conf
