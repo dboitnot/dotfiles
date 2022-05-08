@@ -52,3 +52,4 @@
 (package! elpher)
 (package! python-black)
 (package! zprint-mode)
+(package! org-super-agenda)

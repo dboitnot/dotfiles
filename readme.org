@@ -67,7 +67,7 @@ sudo apt-get install i3 suckless-tools
 #+begin_src bash
 pacman -S ripgrep-all fd git emacs ttf-fira-code powerline-fonts i3 stow pyenv base-devel \
           xss-lock dnsutils ksysguard jq aws-cli leiningen hunspell-en_us python-black \
-          pyenv python-pytest 
+          pyenv python-pytest powerline
 snap install zoom-client
 
 sudo sed -Ei '/EnableAUR/s/^#//' /etc/pamac.conf
@@ -256,3 +256,12 @@ systemctl enable fangfrisch.timer
 # Perform a scan
 clamscan --recursive --infected --exclude-dir='^/sys|^/dev' /
 #+end_src
+
+* Linux Apps
+
+Here is a list of Linux apps I'm using or considering.
+
+- Task Management
+  - [[https://orgmode.org/guide/Hyperlinks.html][todoist]] - Includes a Linux app, mobile, browser plugins
+- Database Access
+  - [[https://dbeaver.io/][DBeaver]] - Oracle, MySQL, PostgreSQL, DB2, Couch

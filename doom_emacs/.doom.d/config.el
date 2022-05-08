@@ -215,10 +215,12 @@ boitnott@sigcorp.com
 ;;
 
 (require 'org-habit)
+(require 'org-super-agenda)
 (add-to-list 'org-modules 'org-habit)
 (setq org-startup-folded t
       ;; Compact the block agenda view
       org-agenda-compact-blocks t
+      org-agenda-start-day "0d"
 
       org-todo-keywords '((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
                           (sequence "WAIT(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)" "PHONE" "MEETING"))
@@ -234,7 +236,45 @@ boitnott@sigcorp.com
 
       ;; Custom agenda command definitions
       org-agenda-custom-commands
-      '(("A" "Agenda"
+      '(("z" "Hugo view"
+         ((agenda "" ((org-agenda-span 'day)
+                      (org-super-agenda-groups
+                       '((:name "Today"
+                          :time-grid t
+                          :date today
+                          :todo "TODAY"
+                          :scheduled today
+                          :order 1)))))
+          (alltodo "" ((org-agenda-overriding-header "")
+                       (org-super-agenda-groups
+                        '(;; Each group has an implicit boolean OR operator between its selectors.
+                          (:name "Today"
+                           :deadline today
+                           :face (:background "black"))
+                          (:name "Passed deadline"
+                           :and (:deadline past :todo ("TODO" "WAIT" "HOLD" "NEXT"))
+                           :face (:background "#7f1b19"))
+                          (:name "SIG important"
+                           :and (:priority>= "B" :tag "SIG" :todo ("TODO" "NEXT")))
+                          (:name "SIG other"
+                           :and (:tag "SIG" :todo ("TODO" "NEXT")))
+                          (:name "Important"
+                           :priority "A")
+                          (:priority<= "B"
+                           ;; Show this section after "Today" and "Important", because
+                           ;; their order is unspecified, defaulting to 0. Sections
+                           ;; are displayed lowest-number-first.
+                           :order 1)
+                          (:name "Papers"
+                           :file-path "org/roam/notes")
+                          (:name "Waiting"
+                           :todo "WAIT"
+                           :order 9)
+                          (:name "On hold"
+                           :todo "HOLD"
+                           :order 10)))))))
+
+        ("A" "Agenda"
          ((agenda "" nil)
           (tags "REFILE"
                 ((org-agenda-overriding-header "Tasks to Refile")
