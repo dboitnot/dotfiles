@@ -115,7 +115,7 @@
 
 ;; I'm ignoring "line too long" errors because I'm using the Python Black
 ;; auto-formatter and it sometimes allows lines to be slightly long.
-(setq lsp-pylsp-plugins-flake8-ignore ["E501"])
+(setq lsp-pylsp-plugins-flake8-ignore ["E501" "W503"])
 
 ;; (use-package! zprint-mode
 ;;   :config
