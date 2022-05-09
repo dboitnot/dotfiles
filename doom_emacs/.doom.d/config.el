@@ -224,6 +224,7 @@ boitnott@sigcorp.com
       ;; Compact the block agenda view
       org-agenda-compact-blocks t
       org-agenda-start-day "0d"
+      org-super-agenda-mode t
 
       org-todo-keywords '((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
                           (sequence "WAIT(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)" "PHONE" "MEETING"))
