@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Add shell timestamp using $(date)
+# key: /ts
+# --
+$(date '+%Y-%m-%d_%H.%M.%S')
