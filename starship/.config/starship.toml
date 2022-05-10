@@ -1,19 +1,19 @@
 format = """
 $cmd_duration\
 $status\n\
-[](#9A348E)\
+[](#7035b8)\
 $username\
-[](bg:#DA627D fg:#9A348E)\
+[](bg:#5434c2 fg:#7035b8)\
 $directory\
-[](fg:#DA627D bg:#FCA17D)\
+[](fg:#5434c2 bg:#3737ab)\
 $git_branch\
 $git_status\
-[](fg:#FCA17D bg:#86BBD8)\
+[](fg:#3737ab bg:#3453c2)\
 $nodejs\
 $rust\
-[](fg:#86BBD8 bg:#33658A)\
+[](fg:#3453c2 bg:#356eb8)\
 $time\
-[ ](fg:#33658A)\
+[ ](fg:#356eb8)\
 """
 
 # Disable the blank line at the start of the prompt
@@ -26,12 +26,12 @@ disabled = false
 # You can also replace your username with a neat symbol like  to save some space
 [username]
 #show_always = true
-style_user = "bg:#9A348E"
-style_root = "bg:#9A348E"
+style_user = "bg:#7035b8"
+style_root = "bg:#7035b8"
 format = '[$user ]($style)'
 
 [directory]
-style = "bg:#DA627D"
+style = "bg:#5434c2"
 format = "[ $path ]($style)"
 truncation_length = 3
 truncation_symbol = "…/"
@@ -51,25 +51,25 @@ truncation_symbol = "…/"
 
 [git_branch]
 symbol = ""
-style = "bg:#FCA17D"
-format = '[[ $symbol $branch ](bg:#FCA17D)]($style)'
+style = "bg:#3737ab"
+format = '[[ $symbol $branch ](bg:#3737ab)]($style)'
 
 [git_status]
-style = "bg:#FCA17D"
-format = '[[($all_status$ahead_behind )](bg:#FCA17D)]($style)'
+style = "bg:#3737ab"
+format = '[[($all_status$ahead_behind )](bg:#3737ab)]($style)'
 
 [nodejs]
 symbol = ""
-style = "bg:#86BBD8"
-format = '[[ $symbol ($version) ](bg:#86BBD8)]($style)'
+style = "bg:#3453c2"
+format = '[[ $symbol ($version) ](bg:#3453c2)]($style)'
 
 [rust]
 symbol = ""
-style = "bg:#86BBD8"
-format = '[[ $symbol ($version) ](bg:#86BBD8)]($style)'
+style = "bg:#3453c2"
+format = '[[ $symbol ($version) ](bg:#3453c2)]($style)'
 
 [time]
 disabled = false
 time_format = "%R" # Hour:Minute Format
-style = "bg:#33658A"
-format = '[[ $time ](bg:#33658A)]($style)'
+style = "bg:#356eb8"
+format = '[[ $time ](bg:#356eb8)]($style)'
