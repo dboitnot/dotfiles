@@ -3,6 +3,8 @@
 ;; Place your private configuration here! Remember, you do not need to run 'doom
 ;; sync' after modifying this file!
 
+(defmacro comment (&rest a))
+
 
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
 ;; clients, file templates and snippets.
@@ -224,7 +226,7 @@ boitnott@sigcorp.com
 (after! org
   ;; Remove the Doom-delivered todo template and replace it with a slightly different one.
   (setq org-capture-templates
-        (seq-filter (lambda (i) (not (s-equals? "t"  (first i)))) org-capture-templates))
+        (seq-filter (lambda (i) (not (s-equals? "t"  (nth 0 i)))) org-capture-templates))
   (add-to-list 'org-capture-templates
                '("t" "Personal todo" entry
                  (file+headline +org-capture-todo-file "Inbox")
