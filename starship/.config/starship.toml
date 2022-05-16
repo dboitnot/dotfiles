@@ -1,6 +1,4 @@
 format = """
-$cmd_duration\
-$status\n\
 [](#7035b8)\
 $username\
 [](bg:#5434c2 fg:#7035b8)\
