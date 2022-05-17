@@ -1,4 +1,5 @@
 format = """
+$status\
 [](#7035b8)\
 $username\
 [](bg:#5434c2 fg:#7035b8)\
@@ -20,6 +21,8 @@ add_newline = false
 [status]
 map_symbol = true
 disabled = false
+sigint_symbol = "☠"
+not_executable_symbol = ""
 
 # You can also replace your username with a neat symbol like  to save some space
 [username]
