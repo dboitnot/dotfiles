@@ -162,7 +162,7 @@
    ;; read who is sending the email
    message-sendmail-extra-arguments '("--read-envelope-from")
    message-send-mail-function 'message-send-mail-with-sendmail
-   mu4e-get-mail-command "mbsync -a"
+   mu4e-get-mail-command "mbsync sig:INBOX gmail:INBOX"
 
    mu4e-headers-include-related nil
 
@@ -176,7 +176,7 @@
                      :match-func (lambda (msg)
                                    (when msg
                                      (string-prefix-p "/sig" (mu4e-message-field msg :maildir))))
-                     ;; relevant bits
+
                      :vars '((mu4e-sent-folder . "/sig/Sent Items")
                              (mu4e-drafts-folder . "/sig/Drafts")
                              (mu4e-inbox-folder . "/sig/Inbox")
@@ -188,9 +188,9 @@ Strata Information Group
 boitnott@sigcorp.com
 337-240-6326")
                              (smtpmail-local-domain . "sig")
-                             (smtpmail-smtp-server . "127.0.0.1")
-                             (smtpmail-default-smtp-server . "127.0.0.1")
-                             (smtpmail-smtp-service . 1025)
+                             (smtpmail-smtp-server . "smtp.office365.com")
+                             (smtpmail-default-smtp-server . "smtp.office365.com")
+                             (smtpmail-smtp-service . 587)
                              (user-mail-address . "boitnott@sigcorp.com")))
 
                    ,(make-mu4e-context
@@ -199,7 +199,7 @@ boitnott@sigcorp.com
                      :match-func (lambda (msg)
                                    (when msg
                                      (string-prefix-p "/gmail" (mu4e-message-field msg :maildir))))
-                     ;; relevant bits
+
                      :vars '((mu4e-sent-folder . "/gmail/[Gmail]/Sent Mail")
                              (mu4e-drafts-folder . "/gmail/[Gmail]/Drafts")
                              (mu4e-inbox-folder . "/gmail/Inbox")
