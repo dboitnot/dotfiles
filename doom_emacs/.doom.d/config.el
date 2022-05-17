@@ -136,13 +136,13 @@
 (defun message-insert-signature-at-point (pmode)
   "Function to insert signature at point."
   (interactive)
-  (when pmode (mu4e-compose-goto-top))
-                                        ;(require 'message)
-  (message-goto-body)
-  (save-restriction
-    (narrow-to-region (point) (point))
-    (message-insert-signature))
-  (mu4e-compose-goto-top))
+  (save-excursion
+    (when pmode (mu4e-compose-goto-top))
+    (message-goto-body)
+    (save-restriction
+      (narrow-to-region (point) (point))
+      (message-insert-signature))
+    (mu4e-compose-goto-top)))
 
 (add-hook 'mu4e-compose-mode-hook (lambda () (message-insert-signature-at-point nil)) t)
 (add-hook 'mu4e-compose-pre-hook (lambda () (message-insert-signature-at-point t)) t)
