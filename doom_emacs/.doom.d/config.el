@@ -221,6 +221,7 @@ boitnott@sigcorp.com
 
 (require 'org-habit)
 (require 'org-super-agenda)
+(org-super-agenda-mode)
 (add-to-list 'org-modules 'org-habit)
 
 (after! org
