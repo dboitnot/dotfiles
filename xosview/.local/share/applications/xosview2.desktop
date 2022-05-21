@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=xosview2
+Comment=Launch OS monitoring window
+Exec=xosview2 -c $HOME/.config/xosview2/xresources
+Terminal=false
+Type=Application
+Categories=Utilities;
