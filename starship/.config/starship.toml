@@ -1,3 +1,6 @@
+# Nerd font symbol browser:
+# https://www.nerdfonts.com/cheat-sheet
+
 format = """
 $status\
 [](#7035b8)\
@@ -51,7 +54,7 @@ truncation_symbol = "…/"
 # "Important  " = "  "
 
 [git_branch]
-symbol = ""
+symbol = ""
 style = "bg:#3737ab"
 format = '[[ $symbol $branch ](bg:#3737ab)]($style)'
 
