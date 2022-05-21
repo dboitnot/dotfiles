@@ -130,7 +130,7 @@
 (add-hook! 'clojurescript-mode-hook #'paredit-mode)
 
 ;; Custom keybindings
-(map! "<M-/>" #'comment-line)
+(map! :n "M-/" 'comment-line)
 
 ;; Insert mail signatures above quoted text
 (defun message-insert-signature-at-point (pmode)
