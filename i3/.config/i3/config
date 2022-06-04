@@ -15,6 +15,9 @@ set $mod Mod4
 # is used in the bar {} block below.
 font pango:monospace 8
 
+# Prevent the mouse from being moved to newly focused windows
+mouse_warping none
+
 set $bg-color    #2f343f
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
