@@ -1,9 +1,7 @@
 ;;; ../dotfiles/doom_emacs/.doom.d/lisp/kitty.el -*- lexical-binding: t; -*-
 
 (defun array-first (a)
-
   "Returns the first element of the given array."
-
   (aref a 0))
 
 (defvar kitty-socket-glob "~/.kitty.sock-*"
@@ -14,19 +12,15 @@ list of active kitty terminal sockets.")
   "The path to the kitty terminal Unix socket that commands will be sent to.")
 
 (defun kitty-packet (data)
-
   "Returns a string which can be passed to a kitty socket. DATA
 should be a structure like you would pass to json-encode."
-
   (concat "\eP@kitty-cmd" (json-encode data) "\e\\\n"))
 
 (defun send-to-kitty (socket-path cmd payload &optional want-response)
-
   "Send command CMD to kitty terminal listening on Unix socket
 SOCKET-PATH with PAYLOAD. If a reply is expected set
 WANT-RESPONSE to t. The response data will be returned as a
 string."
-
   (let* ((buf "")
          (sock (make-network-process :name "*kitty*"
                                      :filter (lambda (_ s) (setq buf (concat buf s)))
@@ -47,26 +41,20 @@ string."
       (delete-process sock))))
 
 (defun send-text-to-kitty (socket-path text)
-
   "Sends the string TEXT to the kitty terminal listening on Unix
 socket SOCKET-PATH."
-
   (send-to-kitty socket-path "send-text" `((data . ,(concat "text:" text)))))
 
 (defun set-kitty-window-title (socket-path title &optional temporary)
-
   "Sets the window title of the kitty terminal listening on Unix
 socket SOCKET-PATH to TITLE. If TEMPORARY is t then the title
 will be reset on the next command within the window."
-
   (send-to-kitty socket-path "set-window-title" `((title . ,title)
                                                   (temporary . ,temporary))))
 
 (defun get-kitty-first-tab-title (socket-path)
-
   "Returns the title of the first tab in the kitty terminal
 listening on Unix socket at socket-path."
-
   (->> (send-to-kitty socket-path "ls" nil t)
        json-parse-string
        array-first
@@ -75,18 +63,14 @@ listening on Unix socket at socket-path."
        (gethash "title")))
 
 (defun all-kitty-sockets ()
-
   "Returns a list of open kitty Unix sockets by evaluating
   kitty-socket-glob."
-
   (mapcar 'file-truename (file-expand-wildcards kitty-socket-glob)))
 
 (defun label-kitty-windows-for-selection (sockets)
-
   "Labels kitty terminal windows listening on SOCKETS with their
 index in the list starting at 0. Returns a list of pairs whose
 car is the socket path and second item is the original title."
-
   (let ((ret (mapcar (lambda (s) `(,s ,(get-kitty-first-tab-title s))) sockets))
         (i 0))
     (while sockets
@@ -96,22 +80,18 @@ car is the socket path and second item is the original title."
     ret))
 
 (defun restore-kitty-window-titles (sock-title-pairs)
-
   "Loops through SOCK-TITLE-PAIRS setting the titles of the
 terminals in the cars of the pairs to the values in the second
 item."
-
   (dolist (pair sock-title-pairs)
     (set-kitty-window-title (car pair) (nth 1 pair) t)))
 
 (defun select-kitty-terminal ()
-
   "Returns the path to the Unix socket for the user-selected
 kitty terminal. If there are no available sockets, returns nil.
 If there is only one available, that socket is automatically
 selected. Otherwise the user is prompted to select the desired
 terminal."
-
   (let ((sockets (all-kitty-sockets)))
     (pcase (length sockets)
       (0 (message "No kitty sockets found: %s" kitty-socket-glob))
@@ -122,13 +102,11 @@ terminal."
            ret)))))
 
 (defun get-current-kitty-terminal ()
-
   "Returns the Unix socket for the current kitty terminal
 associated with this buffer based on the value in
 kitty-socket-current. If this value is nil or points to a
 non-existant path, then a new selection is made, prompting the
 user if necessary."
-
   (if (and kitty-socket-current (file-exists-p kitty-socket-current))
       kitty-socket-current
     (when-let ((sel (select-kitty-terminal)))
@@ -136,18 +114,14 @@ user if necessary."
       sel)))
 
 (defun kitty-line-continued-p (&optional n)
-
   "Returns non-nil if the line ends with a backslash."
-
   (string= "\\" (let (p)
                   (setq p (line-end-position n))
                   (buffer-substring (- p 1) p))))
 
 (defun kitty-current-continued-line ()
-
   "Returns the current line including lines which may have been
 continued with backslashes."
-
   (save-excursion
     ;; Move up to the first line of this continuation
     (while (kitty-line-continued-p 0)
@@ -160,9 +134,7 @@ continued with backslashes."
       (substring-no-properties (buffer-substring s (end-of-line-at-pos (point)))))))
 
 (defun kitty-write-region-or-line (s e)
-
   "Send the content of the current region if there is one or line if not."
-
   (interactive "r")
   (send-text-to-kitty
    (get-current-kitty-terminal)
