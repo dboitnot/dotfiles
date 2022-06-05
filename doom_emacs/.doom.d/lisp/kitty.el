@@ -62,10 +62,19 @@ listening on Unix socket at socket-path."
        array-first
        (gethash "title")))
 
+(defun kitty-socket-pid (f)
+  "Returns the PID of the socket file F as an integer."
+   (-> f (split-string "-") last car string-to-number))
+
+(defun kitty-socket-alive-p (f)
+  "Returns true if socket file F is associated with an active kitty
+terminal"
+  (->> f kitty-socket-pid process-attributes (alist-get 'comm) (equal "kitty")))
+
 (defun all-kitty-sockets ()
   "Returns a list of open kitty Unix sockets by evaluating
   kitty-socket-glob."
-  (mapcar 'file-truename (file-expand-wildcards kitty-socket-glob)))
+  (-filter #'kitty-socket-alive-p (mapcar 'file-truename (file-expand-wildcards kitty-socket-glob))))
 
 (defun label-kitty-windows-for-selection (sockets)
   "Labels kitty terminal windows listening on SOCKETS with their
@@ -95,7 +104,7 @@ terminal."
   (let ((sockets (all-kitty-sockets)))
     (pcase (length sockets)
       (0 (message "No kitty sockets found: %s" kitty-socket-glob))
-      (1 (first sockets))
+      (1 (nth 0 sockets))
       (_ (let ((old-titles (label-kitty-windows-for-selection sockets))
                (ret (nth (read-number "Enter kitty term number: ") sockets)))
            (restore-kitty-window-titles old-titles)
