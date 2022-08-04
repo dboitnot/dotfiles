@@ -53,3 +53,4 @@
 (package! python-black)
 (package! zprint-mode)
 (package! org-super-agenda)
+(package! sed-mode)
