@@ -178,7 +178,7 @@ default-key <Key ID>
 
 #+begin_src bash
 sudo pacman -S isync msmtp
-pamac install mu cyrus-sasl-xoauth2-git oauth2token davmail
+pamac install mu cyrus-sasl-xoauth2-git oauth2token   # davmail
 
 cd ~/dotfiles
 stow mu4e
@@ -199,7 +199,8 @@ python ~/.config/mu4e/mutt_oauth2.py --authorize ~/.config/mu4e/gmail-token.gpg
 
 python ~/.config/mu4e/mutt_oauth2.py ~/.config/mu4e/gmail-token.gpg
 
-systemctl --user enable --now davmail@sig
+# We don't use davmail anymore
+# systemctl --user enable --now davmail@sig
 
 # Send a test message, a pop-up should appear to finish the authorization process
 msmtp -a sig dboitnot@gmail.com
