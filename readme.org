@@ -291,6 +291,15 @@ eval "$(starship init bash)"
 # Vim-style keybindings
 set -o vi
 #+end_src
+
+Add to =~/.profile=:
+
+#+begin_src bash
+if [ "$0" = "/etc/lightdm/Xsession" -a "$DESKTOP_SESSION" = "i3" ]; then
+    export $(gnome-keyring-daemon --start --components=ssh)
+fi
+#+end_src
+
 * Linux Apps
 
 Here is a list of Linux apps I'm using or considering.
