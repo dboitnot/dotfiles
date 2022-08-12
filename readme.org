@@ -67,7 +67,7 @@ sudo apt-get install i3 suckless-tools
 #+begin_src bash
 pacman -S ripgrep-all fd git emacs ttf-fira-code powerline-fonts i3 stow pyenv base-devel \
           xss-lock dnsutils ksysguard jq leiningen hunspell-en_us python-black \
-          pyenv python-pytest starship texlive-latexextra
+          pyenv python-pytest starship texlive-latexextra xorg-xinput vim
 snap install zoom-client
 
 sudo sed -Ei '/EnableAUR/s/^#//' /etc/pamac.conf
@@ -300,6 +300,25 @@ if [ "$0" = "/etc/lightdm/Xsession" -a "$DESKTOP_SESSION" = "i3" ]; then
     export $(gnome-keyring-daemon --start --components=ssh)
 fi
 #+end_src
+
+*** Lenovo Yoga
+**** Touchpad
+
+#+begin_src bash
+# As user
+xinput list
+  # Note id# of Touchpad
+
+# Set an enviroment variable for the touchpad's device number
+TP=10
+
+# Get current settings
+xinput list-props $TP
+
+xinput set-prop $TP 324 1
+#+end_src
+
+See Also: https://wiki.archlinux.org/title/Libinput
 
 * Linux Apps
 

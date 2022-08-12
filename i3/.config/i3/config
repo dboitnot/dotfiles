@@ -194,3 +194,4 @@ bar {
 
 # Run some commands at login
 exec_always "$HOME/.config/i3/arrange_displays.sh"
+exec_always "$HOME/.config/i3/touchpad_settings.sh"
