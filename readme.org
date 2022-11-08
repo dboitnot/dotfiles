@@ -67,7 +67,7 @@ sudo apt-get install i3 suckless-tools
 #+begin_src bash
 pacman -S ripgrep-all fd git emacs ttf-fira-code powerline-fonts i3 stow pyenv base-devel \
           xss-lock dnsutils ksysguard jq leiningen hunspell-en_us python-black \
-          pyenv python-pytest starship texlive-latexextra fish exa xorg-xinput vim
+          pyenv python-pytest starship texlive-latexextra exa xorg-xinput vim picom
 snap install zoom-client
 
 sudo sed -Ei '/EnableAUR/s/^#//' /etc/pamac.conf
@@ -78,7 +78,7 @@ pacman -S docker
 systemctl start docker
 systemctl enable docker
 usermod -aG docker dboitnot
-usermod -s /usr/bin/fish dboitnot
+usermod -s /usr/bin/bash dboitnot
 
 # As user
 systemctl --user enable emacs
