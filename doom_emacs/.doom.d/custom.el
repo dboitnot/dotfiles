@@ -41,7 +41,8 @@
     (cons 320 "#625161")
     (cons 340 "#4C566A")
     (cons 360 "#4C566A")))
- '(vc-annotate-very-old-color nil))
+ '(vc-annotate-very-old-color nil)
+ '(warning-suppress-types '((before-save-hook) (before-save-hook) (before-save-hook))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
