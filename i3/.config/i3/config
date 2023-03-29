@@ -194,6 +194,7 @@ for_window [class="zoom" title="Zoom Meeting"] floating disable
 # finds out, if available)
 bar {
         status_command i3status
+        tray_output primary
 }
 
 # Enable picom compositor so Zoom overlays work
