@@ -51,6 +51,10 @@
 
 (package! elpher)
 (package! python-black)
-(package! zprint-mode)
+;;(package! zprint-mode)
+(package! zprint-format)
 (package! org-super-agenda)
 (package! sed-mode)
+
+(package! copilot
+  :recipe (:host github :repo "zerolfx/copilot.el" :files ("*.el" "dist")))

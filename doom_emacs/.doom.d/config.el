@@ -124,8 +124,13 @@
 ;;   (add-hook! 'clojure-mode-hook #'zprint-mode)
 ;;   (add-hook! 'clojurescript-mode-hook #'zprint-mode))
 
-(add-hook! 'clojure-mode-hook #'format-all-mode)
-(add-hook! 'clojurescript-mode-hook #'format-all-mode)
+(use-package! zprint-format
+  :config
+  (add-hook! 'clojure-mode-hook #'zprint-format-on-save-mode)
+  (add-hook! 'clojurescript-mode-hook #'zprint-format-on-save-mode))
+
+;; (add-hook! 'clojure-mode-hook #'format-all-mode)
+;; (add-hook! 'clojurescript-mode-hook #'format-all-mode)
 (add-hook! 'clojure-mode-hook #'paredit-mode)
 (add-hook! 'clojurescript-mode-hook #'paredit-mode)
 
@@ -294,3 +299,12 @@ boitnott@sigcorp.com
                           (:name "On hold"
                            :todo "HOLD"
                            :order 10)))))))))
+
+;; accept completion from copilot and fallback to company
+(use-package! copilot
+  :hook (prog-mode . copilot-mode)
+  :bind (:map copilot-completion-map
+              ("<tab>" . 'copilot-accept-completion)
+              ("TAB" . 'copilot-accept-completion)
+              ("C-TAB" . 'copilot-accept-completion-by-word)
+              ("C-<tab>" . 'copilot-accept-completion-by-word)))
