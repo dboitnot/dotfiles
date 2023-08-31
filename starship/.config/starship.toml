@@ -44,8 +44,9 @@
 
 format = """
 $status\
-[](#7035b8)\
 $username\
+[](#7035b8)\
+$env_var\
 [](bg:#5434c2 fg:#7035b8)\
 $directory\
 [](fg:#5434c2 bg:#3737ab)\
@@ -125,3 +126,8 @@ disabled = false
 time_format = "%R" # Hour:Minute Format
 style = "bg:#356eb8"
 format = '[[ $time ](bg:#356eb8)]($style)'
+
+[env_var.AWS_PROFILE]
+symbol = "☁️"
+style= "bg:#7035b8"
+format = "[$symbol$env_value]($style)"
