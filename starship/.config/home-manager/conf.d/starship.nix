@@ -1,5 +1,141 @@
+# Nerd font symbol browser:
+# https://www.nerdfonts.com/cheat-sheet
+
+# | Decimal | Unicode | Glyph |
+# |--------:|--------:|:-----:|
+# | 57504   | \ue0a0  |      |
+# | 57505   | \ue0a1  |      |
+# | 57506   | \ue0a2  |      |
+# | 57507   | \ue0a3  |      |
+# | 57520   | \ue0b0  |      |
+# | 57521   | \ue0b1  |      |
+# | 57522   | \ue0b2  |      |
+# | 57523   | \ue0b3  |      |
+# | 57524   | \ue0b4  |      |
+# | 57525   | \ue0b5  |      |
+# | 57526   | \ue0b6  |      |
+# | 57527   | \ue0b7  |      |
+# | 57528   | \ue0b8  |      |
+# | 57529   | \ue0b9  |      |
+# | 57530   | \ue0ba  |      |
+# | 57531   | \ue0bb  |      |
+# | 57532   | \ue0bc  |      |
+# | 57533   | \ue0bd  |      |
+# | 57534   | \ue0be  |      |
+# | 57535   | \ue0bf  |      |
+# | 57536   | \ue0c0  |      |
+# | 57537   | \ue0c1  |      |
+# | 57538   | \ue0c2  |      |
+# | 57539   | \ue0c3  |      |
+# | 57540   | \ue0c4  |      |
+# | 57541   | \ue0c5  |      |
+# | 57542   | \ue0c6  |      |
+# | 57543   | \ue0c7  |      |
+# | 57544   | \ue0c8  |      |
+# | 57546   | \ue0ca  |      |
+# | 57548   | \ue0cc  |      |
+# | 57549   | \ue0cd  |      |
+# | 57550   | \ue0ce  |      |
+# | 57551   | \ue0cf  |      |
+# | 57552   | \ue0d0  |      |
+# | 57553   | \ue0d1  |      |
+# | 57554   | \ue0d2  |      |
+# | 57556   | \ue0d4  |      |
+
+{lib, ...}:
 {
   programs.starship = {
     enable = true;
+    settings = {
+      add_newline = false;
+      format = lib.concatStrings [
+        "$status"
+        "[](#7035b8)"
+        "$username"
+        "$env_var"
+        "[](bg:#5434c2 fg:#7035b8)"
+        "$directory"
+        "[](fg:#5434c2 bg:#3737ab)"
+        "$git_branch"
+        "$git_status"
+        "[](fg:#3737ab bg:#3453c2)"
+        "$nodejs"
+        "$rust"
+        "[](fg:#3453c2 bg:#356eb8)"
+        "$time"
+        "$character"
+      ];
+
+      status = {
+        map_symbol = true;
+        disabled = false;
+        sigint_symbol = "☠";
+        not_executable_symbol = "";
+      };
+
+      character = {
+        success_symbol = "[](fg:#356eb8)";
+        error_symbol = "[](fg:#356eb8)";
+        vicmd_symbol = "[](fg:#356eb8)";
+      };
+
+      username = {
+        style_user = "bg:#7035b8";
+        style_root = "bg:#7035b8";
+        format = "[$user ]($style)";
+      };
+
+      directory = {
+        style = "bg:#5434c2";
+        format = "[ $path ]($style)";
+        truncation_length = 3;
+        truncation_symbol = "…/";
+
+        substitutions = {
+          "Documents" = " ";
+          "Downloads" = " ";
+          "Music" = " ";
+          "Pictures" = " ";
+        };
+      };
+
+      git_branch = {
+        symbol = "";
+        style = "bg:#3737ab";
+        format = "[[ $symbol $branch ](bg:#3737ab)]($style)";
+      };
+
+      git_status = {
+        style = "bg:#3737ab";
+        format = "[[($all_status$ahead_behind )](bg:#3737ab)]($style)";
+      };
+
+      nodejs = {
+        symbol = "";
+        style = "bg:#3453c2";
+        format = "[[ $symbol ($version) ](bg:#3453c2)]($style)";
+      };
+
+      rust = {
+        symbol = "";
+        style = "bg:#3453c2";
+        format = "[[ $symbol ($version) ](bg:#3453c2)]($style)";
+      };
+
+      time = {
+        disabled = false;
+        time_format = "%R"; # Hour:Minute Format
+        style = "bg:#356eb8";
+        format = "[[ $time ](bg:#356eb8)]($style)";
+      };
+
+      env_var = {
+        AWS_PROFILE = {
+          symbol = "☁️";
+          style= "bg:#7035b8";
+          format = "[$symbol$env_value]($style)";
+        };
+      };
+    };
   };
 }
