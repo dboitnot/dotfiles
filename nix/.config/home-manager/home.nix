@@ -1,4 +1,7 @@
-{ config, pkgs, ... }:
+{ config, pkgs ? import (fetchTarball {
+  url = "https://github.com/NixOS/nixpkgs/archive/refs/tags/22.11.tar.gz";
+    sha256 = "0vwsc34lfr0xn92azqg6pdf8hhksxbdw82kmfrs1nf0sks6l5hyx";
+}) {}, ... }:
 
 let
   confDPath = ~/.config/home-manager/conf.d;
@@ -43,13 +46,13 @@ in
   # directory.
   programs.direnv.enable = true;
 
-  # exa is a modern replacement for ls.
-  programs.exa = {
-    enable = true;
-    enableAliases = true;
-    git = true;
-    icons = true;
-  };
+  # eza is a modern replacement for ls.
+  # programs.eza = {
+  #   enable = true;
+  #   enableAliases = true;
+  #   git = true;
+  #   icons = true;
+  # };
 
   programs.firefox = {
     enable = true;
@@ -82,8 +85,8 @@ in
 
     # General
 
-    pkgs.git pkgs.ripgrep pkgs.fd pkgs.fira-code-nerdfont pkgs.powerline-symbols
-    pkgs.stow pkgs.dnsutils pkgs.jq pkgs.hunspellDicts.en_US-large pkgs.exa
+    pkgs.git pkgs.ripgrep pkgs.fd pkgs.fira-code pkgs.powerline-symbols
+    pkgs.stow pkgs.dnsutils pkgs.jq pkgs.hunspellDicts.en_US-large
     pkgs.autorandr pkgs._1password pkgs._1password-gui pkgs.zoom-us
 
     # Development tools for emacs
