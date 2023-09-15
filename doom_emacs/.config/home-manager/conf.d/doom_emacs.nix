@@ -10,6 +10,8 @@ let myEmacsPkg = pkgs.emacs28; in
   services.emacs = {
     enable = true;
     package = myEmacsPkg;
+    client.enable = true;
+    socketActivation.enable = true;
   };
 
   # home.file.".config/emacs".source = builtins.fetchGit {
